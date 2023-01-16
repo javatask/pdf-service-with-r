@@ -1,0 +1,37 @@
+\documentclass[12pt, a4paper,landscape]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage[left=2cm,right=2cm,
+top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+<<echo=FALSE, message=FALSE, warning=FALSE>>=
+param = param_p[1]
+sampleData = getSampleData(param)
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5)
+@
+
+\begin{document}
+\hskip-8.5mm\includegraphics[width=0.2\linewidth]{logo.jpg}
+
+\vspace{1cm}
+\noindent \textbf{\underline{Report Information}} 
+
+\hskip-8.5mm \begin{tabular}{p{0.2\textwidth}  p{0.3\textwidth}}
+Report generated at: &  \Sexpr{Sys.time()} \\ 
+\end{tabular}
+
+\vspace{1cm}
+\noindent \textbf{\underline{Sample Information}}
+
+\begin{longtable}{ | p{0.3\textwidth} |  p{0.15\textwidth} | p{0.25\textwidth} |  p{0.25\textwidth} | }
+\hline
+\textbf{Field 1:} & \Sexpr{sampleData$field1} &
+\textbf{Field 2:} & \Sexpr{sampleData$field2} \\ \hline
+\end{longtable}
+
+\end{document}
+

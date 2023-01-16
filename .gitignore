@@ -37,3 +37,10 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# knitr and R markdown default cache directories
+**/*.pdf
+**/*.gz
+**/*.tex
+**/*.log
+**/*.aux
