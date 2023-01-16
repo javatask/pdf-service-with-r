@@ -6,7 +6,6 @@
 \usepackage[left=2cm,right=2cm,
 top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
 \usepackage{array}
-\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
 <<echo=FALSE, message=FALSE, warning=FALSE>>=
 param = param_p[1]
