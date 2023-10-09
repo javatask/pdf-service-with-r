@@ -1,76 +1,49 @@
 library(plumber)
-library(sessioninfo)
-library(jsonlite)
 
-Sys.setlocale("LC_TIME", "C")
-version <- "0.0.0"
+rm(list = ls())
+
+version <- "1.0.0"
 
 #* @apiTitle PDF Generation service
 
-#* Get PDF report
-#* @param param The param
+#* @param pid The person id, for example 12345 or 56789
 #* @get /pdf
-function(param, res) {
-  if (is.null (param)) {
+function(pid = 12345, res){
+  if (is.null(pid)) {
     res$status <- 400 # Client error
-    return(list(error = "param parameter is required"))
+    return(list(error = "pid parameter is required, it is person id"))
   }
   
   setwd("./pdf")
-  source("data.R")
-  
-  res$setHeader("Content-type", "application/pdf")
-  res$setHeader("Content-Disposition",
-                "attachment;filename=report.pdf")
-  
-  env <- parent.frame()
-  env$param_p <- param
-  
-  templateName = paste("report", ".Rnw", sep = "")
-  
-  tryCatch({
-    knitr::knit(templateName, envir = env, output = "output.tex")
-    tools::texi2pdf("output.tex")
-    tmp = "output.pdf"
-    res$body <- readBin(tmp, "raw", n = file.info(tmp)$size)
-  },
-  error = function(err) {
-    res$status <- 500 # Server error
-    return(list(error = "failed to generate pdf"))
-  },
-  finally = {
-    setwd("..")
-  })
-  
-  return(res)
-}
-
-
-### Service functions
-#* Ping or health check
-#* @get /_ping
-function(res) {
-  res$setHeader("Content-Type", "application/json")
-  res$status <- 200L
-  res$body <- ""
-  return(res)
-}
-
-#* @get /_version
-function(res) {
-  res$setHeader("Content-Type", "application/json")
-  res$status <- 200L
-  res$body <- sprintf('{"version":"%s"}', version)
-  return(res)
-}
-
-#* @get /_sessioninfo
-function(res) {
-  res$setHeader("Content-Type", "application/json")
-  res$status <- 200L
-  res$body <- jsonlite::toJSON(
-    sessioninfo::session_info(), auto_unbox = TRUE, null = "null"
+  tryCatch(
+    {
+      # Specifying expression
+      source("data.R")
+      templateName = "report.Rnw"
+      
+      env = parent.frame()
+      env$param_pid = pid
+      
+      knitr::knit(templateName, envir = env, output = "output.tex")
+      tools::texi2pdf("output.tex")
+      
+      res$setHeader("Content-type", "application/pdf")
+      res$setHeader("Content-Disposition",
+                    "attachment;filename=report.pdf")
+      
+      tmp = "output.pdf"
+      res$body <- readBin(tmp, "raw", n = file.info(tmp)$size)    
+      return(res)
+    },
+    error = function(e) {
+      # Specifying error message
+      print(e)
+      res$status = 500 # Client error
+      return(list(error = "Internal Server Error"))
+    },
+    finally = {
+      # Specifying final
+      setwd("..")
+    }
   )
-  return(res)
 }
-
