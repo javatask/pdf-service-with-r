@@ -1,0 +1,11 @@
+[  
+{    "category": "A",    "value": 10 , "mean": 7, "sd": 2}, 
+
+{    "category": "B",    "value": 20, "mean": 15, "sd": 3},  
+
+{    "category": "C",    "value": 15, "mean": 10, "sd": 3},  
+
+{    "category": "D",    "value": 25, "mean":17, "sd": 4},  
+
+{    "category": "E",    "value": 30, "mean": 22, "sd": 5}
+]

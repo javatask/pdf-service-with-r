@@ -1,0 +1,44 @@
+[{
+    "_id": "12345",
+	
+    "name": {
+        "text": "John Smith"
+    },
+    
+    "birthDate": "2000-01-02",
+	
+    "gender": "Male",
+	
+    "emails": [{
+        "type": "Personal",
+        "address": "smith@mail.com"
+    }],
+	
+	"phone":  "+380372112233",
+	
+    "createdAt": {
+        "$date": "2022-10-27T01:02:20.864Z"
+    }
+},
+{
+    "_id": "56789",
+	
+    "name": {
+        "text": "Jane Brown"
+    },
+    
+    "birthDate": "2010-02-03",
+	
+    "gender": "Female",
+	
+    "emails": [{
+        "type": "Personal",
+        "address": "brown@mail.com"
+    }],
+	
+	"phone": "+380505556677",
+	
+    "createdAt": {
+        "$date": "2023-10-27T01:02:20.864Z"
+    }
+}]
